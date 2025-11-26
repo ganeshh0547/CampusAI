@@ -1,0 +1,127 @@
+
+You said:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">Campus Assistant</div>
+        <button class="nav-btn" id="openChat">Start Chat</button>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Your <span>24/7 Multilingual Campus</span> Companion</h1>
+        <p>
+            Get instant answers about fees, scholarships, timetables, and campus services 
+            in your preferred language — no waiting, no language barriers.
+        </p>
+        <button class="primary-btn" id="openChat2">Ask a Question</button>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <div class="feature-card">
+            <h3>🌐 5+ Languages</h3>
+            <p>English, Hindi & regional languages supported.</p>
+        </div>
+        <div class="feature-card">
+            <h3>⏰ 24/7 Available</h3>
+            <p>Instant responses anytime.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🧠 Smart Memory</h3>
+            <p>Understands your follow-up questions.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Analytics</h3>
+            <p>Monitors common questions.</p>
+        </div>
+    </section>
+
+    <!-- HELP SECTION -->
+    <section class="help-section">
+        <h2>What Can I Help You With?</h2>
+
+        <div class="grid">
+            <div class="grid-card">
+                <h4>Fees & Payments</h4>
+                <ul>
+                    <li>Fee structure</li>
+                    <li>Deadlines</li>
+                    <li>Payment methods</li>
+                </ul>
+            </div>
+
+            <div class="grid-card">
+                <h4>Scholarships</h4>
+                <ul>
+                    <li>Eligibility</li>
+                    <li>Documents</li>
+                    <li>Deadlines</li>
+                </ul>
+            </div>
+
+            <div class="grid-card">
+                <h4>Academics</h4>
+                <ul>
+                    <li>Timetable</li>
+                    <li>Exams</li>
+                    <li>Results</li>
+                </ul>
+            </div>
+
+            <div class="grid-card">
+                <h4>Campus Services</h4>
+                <ul>
+                    <li>Library</li>
+                    <li>Hostel</li>
+                    <li>Transport</li>
+                </ul>
+            </div>
+
+            <div class="grid-card">
+                <h4>Procedures</h4>
+                <ul>
+                    <li>Bonafide</li>
+                    <li>Certificates</li>
+                </ul>
+            </div>
+
+            <div class="grid-card">
+                <h4>Events</h4>
+                <ul>
+                    <li>Workshops</li>
+                    <li>Competitions</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Ready to Get Started?</h2>
+        <p>Ask your campus doubts instantly with AI assistance.</p>
+        <button class="primary-btn" id="openChat3">Start Chatting Now</button>
+    </section>
+
+    <!-- CHATBOT WIDGET -->
+    <iframe id="chatWidget" class="chat-widget" src="chat.html"></iframe>
+
+    <script>
+        document.getElementById("openChat").onclick =
+        document.getElementById("openChat2").onclick =
+        document.getElementById("openChat3").onclick = () => {
+            document.getElementById("chatWidget").style.display = "block";
+        };
+    </script>
+
+</body>
+</html>

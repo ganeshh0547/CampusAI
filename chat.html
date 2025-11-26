@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Assistant - Chat</title>
+
+    <link rel="stylesheet" href="chat.css" />
+</head>
+<body>
+
+    <div class="chat-container">
+
+        <!-- HEADER -->
+        <div class="chat-header">
+            <div>
+                <h3>Campus Assistant</h3>
+                <p>24/7 Student Support</p>
+            </div>
+            <button class="close-btn" onclick="closeChat()">✕</button>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="messages" id="messagesContainer">
+            <div class="message bot-message">
+                <div class="msg-box">
+                    👋 Hi! I’m your campus assistant.  
+                    How can I help you today?
+                </div>
+            </div>
+        </div>
+
+        <!-- INPUT AREA -->
+        <div class="input-area">
+            <input id="messageInput" type="text" placeholder="Type your message..." autocomplete="off" />
+            <button class="send-btn" id="sendBtn">Send</button>
+        </div>
+
+    </div>
+
+<script>
+const WEBHOOK_URL = "http://localhost:5678/webhook/Edumate-Bot";
+
+const messagesContainer = document.getElementById("messagesContainer");
+const messageInput = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+
+// Close chat
+function closeChat() {
+    window.parent.document.getElementById("chatWidget").style.display = "none";
+}
+
+// Send message
+sendBtn.addEventListener("click", sendMessage);
+messageInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+});
+
+// Add message to UI
+function addMessage(text, sender) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "message " + (sender === "user" ? "user-message" : "bot-message");
+
+    const box = document.createElement("div");
+    box.className = "msg-box";
+    box.innerHTML = text;
+
+    wrapper.appendChild(box);
+    messagesContainer.appendChild(wrapper);
+
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function sendMessage() {
+    const msg = messageInput.value.trim();
+    if (!msg) return;
+
+    addMessage(msg, "user");
+    messageInput.value = "";
+
+    fetchWebhook(msg);
+}
+
+async function fetchWebhook(userMsg) {
+    try {
+        const res = await fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: userMsg,
+                timestamp: new Date().toISOString(),
+                source: "web-chatbot"
+            }),
+        });
+
+        const data = await res.json();
+        let reply = "";
+
+        // 1️⃣ Correct handling for your exact n8n output:
+        if (data.response) {
+            reply = data.response;
+
+        // 2️⃣ If n8n returned array format:
+        } else if (Array.isArray(data) && data.length > 0) {
+            const obj = data[0];
+            reply =
+                obj.response ||
+                obj.reply ||
+                obj.message ||
+                obj.text ||
+                obj.answer ||
+                JSON.stringify(obj);
+
+        // 3️⃣ Fallback:
+        } else {
+            reply =
+                data.message ||
+                data.text ||
+                data.reply ||
+                data.answer ||
+                JSON.stringify(data);
+        }
+
+        addMessage(reply, "bot");
+
+    } catch (err) {
+        addMessage("⚠️ Cannot connect to server. Check backend.", "bot");
+    }
+}
+
+</script>
+
+</body>
+</html>
